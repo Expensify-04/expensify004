@@ -1,17 +1,11 @@
 import {useState} from "react";
-
-import CurrencyConverter from "./Components/CurrencyConverter";
-import {BrowserRouter} from "react-router-dom";
-import AppRouter from "./Components/AppRouter";
+import {RouterProvider} from "react-router-dom";
+import AppRouter from "./Router/AppRouter";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
+      <RouterProvider router={AppRouter} />
     </>
   );
 }
