@@ -4,11 +4,13 @@ import Navbar from "./Navbar";
 
 function Layout() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Outlet /> {/* This renders the nested route (Home, CurrencyConverter, etc.) */}
+      <main className="flex-grow" role="main">
+        <Outlet /> {/* This renders the nested route (Home, CurrencyConverter, etc.) */}
+      </main>
       <Footer /> {/* Footer shows on every page */}
-    </>
+    </div>
   );
 }
 
