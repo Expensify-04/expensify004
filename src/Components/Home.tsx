@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
-=======
-import {motion} from "framer-motion";
->>>>>>> f3c3318593e62affe2e1024b534efc331a7fb619
 
 function Home() {
   const imgRef = useRef(null);
