@@ -1,73 +1,111 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Lenis from "@studio-freight/lenis";
 
 function Home() {
+  const imgRef = useRef(null);
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 300], [0, -50]); // Parallax effect
+
+  useEffect(() => {
+    const lenis = new Lenis({ smooth: true });
+
+    const raf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+
+    requestAnimationFrame(raf);
+  }, []);
+
   return (
-    <>
-      <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-50 to-white">
-        <section className="flex-1 pt-24 pb-12 px-6">
-          {/* Hero Section */}
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-50 to-white font-sans">
+      {/* Hero Section */}
+      <section className="flex-1 pt-24 pb-12 px-6">
+        <motion.div
+          className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: { staggerChildren: 0.3 },
+            },
+          }}
+        >
           <motion.div
-            className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center"
-            initial={{ opacity: 0, y: -30 }}
+            className="text-center md:text-left"
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-indigo-700 mb-4 leading-tight">
-                Master Your Finances with Confidence
-              </h1>
-              <p className="text-gray-600 text-lg mb-6">
-                Visualize, manage, and take control of your financial future — all in one intuitive dashboard.
-              </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition shadow-lg text-lg"
-              >
-                Get Started
-              </motion.button>
-            </div>
-            <img
-              src="../../public/financeIllustration2.jpg"
-              alt="Finance illustration"
-              className="w-full max-w-md mx-auto "
-            />
+            <h1 className="text-4xl md:text-5xl font-extrabold text-indigo-700 mb-4 leading-tight">
+              Master Your Finances with Confidence
+            </h1>
+            <p className="text-gray-600 text-lg mb-6">
+              Visualize, manage, and take control of your financial future — all in one intuitive dashboard.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition shadow-md text-lg"
+            >
+              Get Started
+            </motion.button>
           </motion.div>
 
-          {/* Features Section */}
-          <motion.div
-            className="mt-20 max-w-6xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-semibold text-gray-800 text-center mb-10">
-              Features Designed to Empower You
-            </h2>
-            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-2">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-white p-6 rounded-xl shadow-md hover:shadow-2xl cursor-pointer flex flex-col items-center text-center"
-                  whileHover={{ rotateY: 8, rotateX: 6, scale: 1.04 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 12 }}
-                >
-                  <img
-                    src={feature.img}
-                    alt={feature.title}
-                    className="w-24 h-24 mb-4"
-                  />
-                  <h3 className="text-xl font-semibold text-indigo-700 mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-      </div>
-    </>
+          <motion.img
+            ref={imgRef}
+            src="../../public/financeIllustration2.jpg"
+            alt="Finance illustration"
+            className="w-full max-w-md mx-auto rounded-2xl shadow-lg"
+            style={{ y }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          />
+        </motion.div>
+
+        {/* Features Section */}
+        <motion.div
+          className="mt-24 max-w-6xl mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: { staggerChildren: 0.2 },
+            },
+          }}
+        >
+          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-10">
+            Features Designed to Empower You
+          </h2>
+
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 px-2">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="bg-white p-6 rounded-2xl shadow-md hover:shadow-2xl transition-transform flex flex-col items-center text-center"
+                whileHover={{ rotateY: 8, rotateX: 6, scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 180, damping: 15 }}
+              >
+                <img
+                  src={feature.img}
+                  alt={feature.title}
+                  className="w-20 h-20 mb-4 object-contain"
+                />
+                <h3 className="text-xl font-semibold text-indigo-700 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+    </div>
   );
 }
 
