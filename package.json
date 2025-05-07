@@ -11,20 +11,27 @@
     "tailwind-init": "tailwindcss init -p"
   },
   "dependencies": {
-<<<<<<< HEAD
+
     "@studio-freight/lenis": "^1.0.42",
-=======
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
->>>>>>> f3c3318593e62affe2e1024b534efc331a7fb619
+
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+
     "@tailwindcss/vite": "^4.1.5",
     "firebase": "^11.6.1",
     "framer-motion": "^12.10.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.3",
-    "tailwindcss": "^4.1.5"
+    "tailwindcss": "^4.1.5",
+    "lucide-react": "^0.507.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^2.15.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
