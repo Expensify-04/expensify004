@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import Layout from "../Components/Layout";
+import Layout from "../Components/Layout/Layout";
 import Home from "../Components/Home";
 import CurrencyConverter from "../Components/CurrencyConverter";
 // import ErrorPage from "../Pages/ErrorPage/ErrorPage";
