@@ -1,25 +1,29 @@
 import React from 'react'
 import img from '../assets/sigin.png'
-import google from '../assets/Googlelogo.png'
 import phone from '../assets/phone.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
+import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 
 
 const Signin:React.FC = () => {
   
-
+  const handleLogin=(response: CredentialResponse)=>{
+    console.log("JWT Token",response.credential);
+    
+  }
+{/* <button  className='bg-slate-200 opacity-75 font-semibold p-2 m-1 rounded-lg flex gap-3 hover:bg-slate-300'><img src={google} alt=""className='w-6' /> */}
   return (
     <div className='flex'>
-        <div className='flex justify-center relative left-16  '>
+        <div className='flex justify-center relative top-8 left-10  '>
             <img src={img} alt=""  />
         </div>
-        <div className=' float-right p-10 mt-10 relative left-[200px]  '>
+        <div className=' float-right p-10 mt-10 relative left-[300px]  '>
             <h1 className='text-4xl font-bold m-3'>Sign in</h1>
             <p className='text-xs mt-4 ml-3'>Sign in with Open account</p>
             <div className='flex mt-3 mb-3'>
-            <button className='bg-slate-200 opacity-75 font-semibold p-2 m-1 rounded-lg flex gap-3 hover:bg-slate-300'><img src={google} alt=""className='w-6' />Google</button>
+          <GoogleLogin onSuccess={handleLogin}  /> 
             <button className='bg-slate-200 p-2 m-1 opacity-75 font-semibold rounded-lg flex gap-3 hover:bg-slate-300'><img src={phone} alt="" className='w-6' /> Phone Number</button>
          </div>
          <hr />
