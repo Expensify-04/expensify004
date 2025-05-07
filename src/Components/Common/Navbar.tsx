@@ -13,7 +13,7 @@ function Navbar() {
 
           {/* Navigation Links */}
           <div className="items-center hidden space-x-8 md:flex">
-            {/* <a href="#" className="text-gray-700 transition hover:text-indigo-600">Home</a> */}
+            <a href="/" className="text-base font-semibold text-gray-700 transition hover:text-indigo-600">Home</a>
             <Link
               to="/Dashboard"
               className="text-base font-semibold text-gray-700 transition hover:text-indigo-600">

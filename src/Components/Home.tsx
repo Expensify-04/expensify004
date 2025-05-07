@@ -27,13 +27,10 @@ function Home() {
                 Get Started
               </motion.button>
             </div>
-            <motion.img
+            <img
               src="../../public/financeIllustration2.jpg"
               alt="Finance illustration"
               className="w-full max-w-md mx-auto "
-              initial={{ scale: 0.9, rotate: -5 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.8 }}
             />
           </motion.div>
 
