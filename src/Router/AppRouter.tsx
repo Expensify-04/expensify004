@@ -2,7 +2,7 @@ import {createBrowserRouter} from "react-router-dom";
 import Layout from "../Components/Layout/Layout";
 import Home from "../Components/Home";
 import CurrencyConverter from "../Components/CurrencyConverter";
-import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+// import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const AppRouter = createBrowserRouter([
   {
@@ -21,10 +21,10 @@ const AppRouter = createBrowserRouter([
         path: "Currency",
         element: <CurrencyConverter />,
       },
-      {
-        path: "*",
-        element: <ErrorPage />,
-      },
+      // {
+      //   path: "*",
+      //   element: <ErrorPage />,
+      // },
     ],
   },
 ]);
