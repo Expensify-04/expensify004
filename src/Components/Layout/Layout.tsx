@@ -6,7 +6,7 @@ function Layout() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow" role="main">
+      <main className="flex-grow pt-4" role="main">
         <Outlet /> {/* This renders the nested route (Home, CurrencyConverter, etc.) */}
       </main>
       <Footer /> {/* Footer shows on every page */}

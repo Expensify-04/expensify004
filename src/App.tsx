@@ -9,9 +9,9 @@ function App() {
 
   return (
     <>
-      {/* <GoogleOAuthProvider clientId={clientId}>
-        <RouterProvider router={AppRouter} /> */}
-      <GoogleOAuthProvider clientId="912996226246-9ja53kmbgrml5rmk4rh3uemvjfjqvtb0.apps.googleusercontent.com ">
+      <GoogleOAuthProvider clientId={clientId}>
+        {/* <RouterProvider router={AppRouter} /> */}
+        {/* <GoogleOAuthProvider clientId="912996226246-9ja53kmbgrml5rmk4rh3uemvjfjqvtb0.apps.googleusercontent.com "> */}
         <RouterProvider router={AppRouter} />
         <ToastContainer
           position="top-right"

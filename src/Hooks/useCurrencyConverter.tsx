@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {ExchangeUrl} from "../utils/ApiUrl";
 
 const useCurrencyConverter = (amount: number | "", fromCurrency: string, toCurrency: string) => {
@@ -33,11 +33,7 @@ const useCurrencyConverter = (amount: number | "", fromCurrency: string, toCurre
     }
   };
 
-  useEffect(() => {
-    convertCurrency();
-  }, [amount, fromCurrency, toCurrency]);
-
-  return {result, loading, error, convertCurrency}; // <== ALWAYS return this object
+  return {result, loading, error, convertCurrency}; // <== Always return this object
 };
 
 export default useCurrencyConverter;
