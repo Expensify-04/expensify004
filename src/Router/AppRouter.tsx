@@ -1,9 +1,12 @@
+// src/router/AppRouter.jsx
 import {createBrowserRouter} from "react-router-dom";
 import Layout from "../Components/Layout/Layout";
 import Home from "../Components/Home";
 import CurrencyConverter from "../Components/CurrencyConverter";
 import Signin from "../Components/Signin";
 import Signup from "../Components/Signup";
+import PrivateRoute from "../Auth/PrivateRoute";
+
 // import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const AppRouter = createBrowserRouter([
@@ -16,25 +19,45 @@ const AppRouter = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "Dashboard",
-        element: <CurrencyConverter />,
+        path: "dashboard",
+        element: (
+          <PrivateRoute>
+            <CurrencyConverter />
+          </PrivateRoute>
+        ),
       },
       {
-        path: "Currency",
-        element: <CurrencyConverter />,
+        path: "currency",
+        element: (
+          <PrivateRoute>
+            <CurrencyConverter />
+          </PrivateRoute>
+        ),
       },
+      {
+        path: "signin",
+        element: <Signin />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+      },
+      {
+        path: "signin",
+        element: <Signin />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+      },
+      // {
+      //   path:"phonenumber",
+      //   element:<PhoneNumber/>
+      // }
       // {
       //   path: "*",
       //   element: <ErrorPage />,
       // },
-      {
-        path: "/signin",
-        element: <Signin />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-      },
     ],
   },
 ]);
