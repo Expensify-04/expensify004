@@ -22,8 +22,8 @@ const Signin: React.FC = () => {
     navigate('/phonenumber')
   }
   
- const handleSignin=(e:React.FormEvent<HTMLFormElement>)=>{
-  e.preventDefault()
+ const handleSignin=()=>{
+  // e.preventDefault()
  
   const storedDetailsE=localStorage.getItem("email")
   const storedDetailsP=localStorage.getItem("password")
@@ -41,7 +41,6 @@ const Signin: React.FC = () => {
     console.log("JWT Token",response.credential)
   }
 
-{/* <button  className='bg-slate-200 opacity-75 font-semibold p-2 m-1 rounded-lg flex gap-3 hover:bg-slate-300'><img src={google} alt=""className='w-6' /> */}
   return (
     <div className='flex'>
         <div className='flex justify-center relative top-8 left-10  '>
