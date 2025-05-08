@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+
+import React from 'react'
 import img from '../assets/sigin.png'
+import google from '../assets/Googlelogo.png'
 import phone from '../assets/phone.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
@@ -53,6 +55,22 @@ const Signin: React.FC = () => {
             <div className='flex mt-3 mb-3 gap-3'>
           <GoogleLogin onSuccess={handleLogin}  /> 
             <button onClick={handlePhoneNumber} className='border-2 border-slate-200 p-2   rounded-lg flex gap-3 hover:bg-slate-100'><img src={phone} alt="" className='w-6' /> Phone Number</button>
+
+
+const Signin:React.FC = () => {
+  
+
+  return (
+    <div className='flex'>
+        <div className='flex justify-center relative left-16  '>
+            <img src={img} alt=""  />
+        </div>
+        <div className=' float-right p-10 mt-10 relative left-[200px]  '>
+            <h1 className='text-4xl font-bold m-3'>Sign in</h1>
+            <p className='text-xs mt-4 ml-3'>Sign in with Open account</p>
+            <div className='flex mt-3 mb-3'>
+            <button className='bg-slate-200 opacity-75 font-semibold p-2 m-1 rounded-lg flex gap-3 hover:bg-slate-300'><img src={google} alt=""className='w-6' />Google</button>
+            <button className='bg-slate-200 p-2 m-1 opacity-75 font-semibold rounded-lg flex gap-3 hover:bg-slate-300'><img src={phone} alt="" className='w-6' /> Phone Number</button>
          </div>
          <hr />
          <div className='flex flex-col mt-3'>
@@ -67,6 +85,7 @@ const Signin: React.FC = () => {
             <button type='submit' className='bg-blue-300 mt-3 p-2 w-[350px] rounded-xl text-xl text-white hover:text-black'>Sign in</button>
             </form>
              <p className='text-sm m-2 justify-content ml-20'>Don't have an Account?<Link to='/signup' className='text-blue-400 font-semibold'>Sign Up</Link> </p>
+
          </div>
         </div>
 
