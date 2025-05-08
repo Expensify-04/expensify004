@@ -42,6 +42,18 @@ const AppRouter = createBrowserRouter([
         path: "signup",
         element: <Signup />,
       },
+      {
+        path: "signin",
+        element: <Signin />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+      },
+      // {
+      //   path:"phonenumber",
+      //   element:<PhoneNumber/>
+      // }
       // {
       //   path: "*",
       //   element: <ErrorPage />,
