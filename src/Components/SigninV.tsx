@@ -1,23 +1,68 @@
 // src/Components/Signin.tsx
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import img from "../assets/sigin.png";
 import phone from "../assets/phone.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {GoogleLogin, type CredentialResponse} from "@react-oauth/google";
+import {jwtDecode} from "jwt-decode";
 
+interface GoogleUser {
+  email: string;
+  name: string;
+  picture: string;
+  sub: string; // Google user ID
+}
 const Signin: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Inside your component
+  const [userData, setUserData] = useState<GoogleUser | null>(null);
+
+  useEffect(() => {
+    if (userData) {
+      // Log or do something when userData changes
+      console.log("User data has changed:", userData);
+    }
+  }, [userData]);
+
   // Google Login handler
+  // const handleGoogleLogin = (response: CredentialResponse) => {
+  //   if (response.credential) {
+  //     const decoded: GoogleUser = jwtDecode(response.credential);
+
+  //     console.log("Decoded Google User:", decoded);
+
+  //     // Store user details locally (optional)
+  //     localStorage.setItem("user", JSON.stringify(decoded));
+  //     localStorage.setItem("isAuthenticated", "true");
+
+  //     // Redirect to dashboard
+  //     window.location.href = "/dashboard";
+  //   }
+  // };
+
   const handleGoogleLogin = (response: CredentialResponse) => {
-    console.log("JWT Token", response.credential);
-    // Mark user as authenticated
-    localStorage.setItem("isAuthenticated", "true");
-    // Redirect to dashboard
-    window.location.href = "/dashboard";
+    console.log("Google Login Response:", response); // 1️⃣ Log the full response first
+
+    if (response.credential) {
+      try {
+        const decoded: GoogleUser = jwtDecode(response.credential);
+        // alert("Decoded Google User:", decoded); // 2️⃣ Log the decoded token
+
+        setUserData(decoded);
+        localStorage.setItem("user", JSON.stringify(decoded));
+        localStorage.setItem("isAuthenticated", "true");
+
+        window.location.href = "/dashboard";
+      } catch (error) {
+        console.error("Error decoding JWT token:", error); // 3️⃣ Catch decode errors
+      }
+    } else {
+      console.warn("No credential received from Google login"); // 4️⃣ Warn if no credential
+    }
   };
 
   // Email/Password login handler (dummy logic)

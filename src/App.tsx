@@ -5,6 +5,7 @@ import {GoogleOAuthProvider} from "@react-oauth/google";
 
 function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
+
   return (
     <>
       <GoogleOAuthProvider clientId={clientId}>
