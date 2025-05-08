@@ -6,8 +6,7 @@ import CurrencyConverter from "../Components/CurrencyConverter";
 import Signin from "../Components/Signin";
 import Signup from "../Components/Signup";
 import PrivateRoute from "../Auth/PrivateRoute";
-
-// import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const AppRouter = createBrowserRouter([
   {
@@ -54,10 +53,10 @@ const AppRouter = createBrowserRouter([
       //   path:"phonenumber",
       //   element:<PhoneNumber/>
       // }
-      // {
-      //   path: "*",
-      //   element: <ErrorPage />,
-      // },
+      {
+        path: "*",
+        element: <ErrorPage />,
+      },
     ],
   },
 ]);

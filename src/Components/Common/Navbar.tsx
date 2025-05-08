@@ -1,15 +1,14 @@
 import {Link, useNavigate} from "react-router-dom";
 
 function Navbar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  function handleSignin()
-  {
-    navigate("/signin")
+  function handleSignin() {
+    navigate("/signin");
   }
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full bg-white shadow-sm">
+    <header className="fixed top-0 left-0 z-50 w-full bg-white shadow-sm mb-7">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Brand */}
@@ -34,11 +33,11 @@ function Navbar() {
 
           {/* Login Button */}
           <div className="ml-4">
-            
-              <button onClick={handleSignin} className="px-5 py-2 text-white transition bg-indigo-600 rounded-md shadow-md cursor-pointer hover:bg-indigo-700">
-                Login
-              </button>
-            
+            <button
+              onClick={handleSignin}
+              className="px-5 py-2 text-white transition bg-indigo-600 rounded-md shadow-md cursor-pointer hover:bg-indigo-700">
+              Login
+            </button>
           </div>
         </div>
       </div>
