@@ -70,6 +70,7 @@ const validation=(email:string)=>{
       </form>
 
       <p className='m-0 text-xs font-semibold'>Already have an account? <Link to='/signin' className='text-blue-400 font-semibold'>Sign in</Link> </p>
+
     </div>
   )
 }
