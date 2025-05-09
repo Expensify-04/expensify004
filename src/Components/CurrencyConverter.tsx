@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {CurrencyUrl} from "../utils/ApiUrl";
 import useCurrencyConverter from "../Hooks/useCurrencyConverter";
 import {CurrencySymbols} from "../utils/CurrencySymbols";
+import Navbar from "./Common/Navbar";
 
 // Utility to get symbol
 const getSymbol = (code: string) => CurrencySymbols[code] || "";
@@ -58,8 +59,13 @@ const CurrencyConverter = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 to-white">
-      <div className="w-full max-w-md p-8 bg-white shadow-2xl rounded-2xl">
-        <h1 className="mb-6 text-2xl font-bold text-center text-gray-800">Currency Converter</h1>
+      <Navbar/>
+      <div className="w-full max-w-md p-6 bg-white mt-8 shadow-2xl rounded-2xl  ">
+        <h1 className="mb-4 text-2xl font-bold text-center text-cyan-600 ">
+          Currency Converter
+        </h1>
+
+    
 
         <div className="mb-4">
           <label className="block mb-2 font-medium text-indigo-900">Amount</label>
@@ -73,7 +79,7 @@ const CurrencyConverter = () => {
                 const val = e.target.value;
                 setAmount(val === "" ? "" : Number(val));
               }}
-              className="w-full px-6 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-6 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
         </div>
@@ -84,7 +90,7 @@ const CurrencyConverter = () => {
             <select
               value={fromCurrency}
               onChange={(e) => setFromCurrency(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500">
               {currencies.map((cur) => (
                 <option key={cur} value={cur}>
                   {cur} {getSymbol(cur)}
@@ -98,7 +104,7 @@ const CurrencyConverter = () => {
             <select
               value={toCurrency}
               onChange={(e) => setToCurrency(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500">
               {currencies.map((cur) => (
                 <option key={cur} value={cur}>
                   {cur} {getSymbol(cur)}
@@ -111,27 +117,27 @@ const CurrencyConverter = () => {
         {/* Swap Button */}
         <button
           onClick={swapCurrencies}
-          className="w-full px-3 py-2 mb-4 text-sm font-medium text-indigo-600 border rounded hover:bg-indigo-100">
+          className="w-full px-3 py-2 mb-4 text-xl font-medium text-cyan-500 border rounded hover:bg-indigo-100">
           Swap Currencies
         </button>
 
         {/* Convert Button */}
         <button
           onClick={handleConvert}
-          className="w-full px-4 py-2 mb-4 font-semibold text-white transition duration-200 bg-indigo-600 rounded-lg shadow hover:bg-indigo-700 hover:shadow-md">
+          className="w-full px-4 py-2 mb-2 font-semibold text-xl text-white transition duration-200 bg-cyan-500 rounded-lg shadow hover:bg-cyan-600 hover:shadow-md">
           Convert
         </button>
 
         {/* Result Display */}
         {loading && (
-          <div className="text-lg font-semibold text-center text-indigo-500 animate-pulse">
+          <div className="text-lg font-semibold text-center text-cyan-500 animate-pulse">
             Converting...
           </div>
         )}
         {error && <div className="font-medium text-center text-red-500">{error}</div>}
         {result !== null && !loading && !error && (
           <div className="mt-4 text-center">
-            <p className="mb-2 text-lg font-medium text-gray-600">Converted Amount:</p>
+            <p className=" text-lg font-medium text-gray-600">Converted Amount:</p>
             <p className="overflow-hidden text-4xl font-extrabold text-green-500 text-ellipsis whitespace-nowrap">
               {getSymbol(toCurrency)} {result.toFixed(2)}
             </p>
@@ -150,7 +156,7 @@ const CurrencyConverter = () => {
                     setFromCurrency(from);
                     setToCurrency(to);
                   }}
-                  className="px-3 py-1 text-xs font-medium text-indigo-600 border border-indigo-400 rounded hover:bg-indigo-100">
+                  className="px-3 py-1 text-xs font-medium text-cyan-500 border border-cyan-600 rounded hover:bg-indigo-100">
                   {from} → {to}
                 </button>
               ))}

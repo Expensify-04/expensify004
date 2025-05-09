@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
+import Navbar from "./Common/Navbar";
 
 function Home() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function Home() {
 
   return (
     <>
+    <Navbar/>
       <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-50 to-white">
         <section className="flex-1 px-6 pt-24 pb-12">
           {/* Hero Section */}
@@ -29,7 +31,7 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="mb-4 text-4xl font-extrabold leading-tight text-indigo-700 md:text-5xl">
+              <h1 className="mb-4 text-4xl font-extrabold leading-tight text-cyan-500 md:text-5xl">
                 Master Your Finances with Confidence
               </h1>
               <p className="mb-6 text-lg text-gray-600">
@@ -38,7 +40,7 @@ function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 text-lg text-white transition bg-indigo-600 rounded-lg shadow-lg hover:bg-indigo-700"
+                className="px-6 py-3 text-lg text-white transition bg-cyan-600 rounded-lg shadow-lg hover:bg-cyan-600"
               >
                 Get Started
               </motion.button>
@@ -69,7 +71,7 @@ function Home() {
                   transition={{ type: "spring", stiffness: 200, damping: 12 }}
                 >
                   <img src={feature.img} alt={feature.title} className="w-24 h-24 mb-4" />
-                  <h3 className="mb-2 text-xl font-semibold text-indigo-700">{feature.title}</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-cyan-500">{feature.title}</h3>
                   <p className="text-gray-600">{feature.description}</p>
                 </motion.div>
               ))}

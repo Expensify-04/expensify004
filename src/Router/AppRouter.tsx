@@ -1,58 +1,43 @@
-// src/router/AppRouter.jsx
 import {createBrowserRouter} from "react-router-dom";
 import Layout from "../Components/Layout/Layout";
 import Home from "../Components/Home";
 import CurrencyConverter from "../Components/CurrencyConverter";
 import Signin from "../Components/Signin";
 import Signup from "../Components/Signup";
-import PrivateRoute from "../Auth/PrivateRoute";
+import Piechart from "../Components/Piechart";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
-
+import ProtectedRouter from "../Components/ProtectedRouter";
 const AppRouter = createBrowserRouter([
   {
+    
     path: "/",
     element: <Layout />,
     children: [
+      {index:true,element: <Home/>},
       {
-        index: true,
-        element: <Home />,
+        path: "signin",
+        element: <Signin />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
       },
       {
         path: "dashboard",
         element: (
-          <PrivateRoute>
-            <CurrencyConverter />
-          </PrivateRoute>
+          <ProtectedRouter>
+                      <Piechart/>
+         </ProtectedRouter>
         ),
       },
       {
         path: "currency",
         element: (
-          <PrivateRoute>
+          <ProtectedRouter>
             <CurrencyConverter />
-          </PrivateRoute>
+          </ProtectedRouter>
         ),
       },
-      {
-        path: "signin",
-        element: <Signin />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        path: "signin",
-        element: <Signin />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      // {
-      //   path:"phonenumber",
-      //   element:<PhoneNumber/>
-      // }
       {
         path: "*",
         element: <ErrorPage />,

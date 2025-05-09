@@ -9,6 +9,7 @@ import {GoogleLogin, type CredentialResponse} from "@react-oauth/google";
 import {jwtDecode} from "jwt-decode";
 import {useNavigate, Link} from "react-router-dom";
 import {toast} from "react-toastify";
+import { useAuth } from "./Authentication";
 
 // Interface for Google decoded token
 interface GoogleUser {
@@ -19,6 +20,7 @@ interface GoogleUser {
 }
 
 const Signin: React.FC = () => {
+  const {setIsLoggedIn} =useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -36,6 +38,11 @@ const Signin: React.FC = () => {
     if (email === storedEmail && password === storedPassword) {
       localStorage.setItem("isAuthenticated", "true");
       toast.success("Login successfully");
+      console.log("before login");
+      
+      setIsLoggedIn(true);
+      console.log("after login");
+      
       navigate("/dashboard");
     } else {
       toast.error("Invalid email or password");
@@ -56,6 +63,8 @@ const Signin: React.FC = () => {
         localStorage.setItem("isAuthenticated", "true");
 
         toast.success("Google login successful");
+        setIsLoggedIn(true);
+
         navigate("/dashboard");
       } catch (error) {
         console.error("Error decoding Google token:", error);
@@ -67,9 +76,12 @@ const Signin: React.FC = () => {
   };
 
   return (
+    <>
+  
     <div className="flex">
+    
       {/* Left Image */}
-      <div className="relative flex justify-center top-8 left-10">
+      <div className="relative flex justify-center  left-10">
         <img src={img} alt="Signin" />
       </div>
 
@@ -148,6 +160,7 @@ const Signin: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
