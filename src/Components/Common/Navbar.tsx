@@ -93,11 +93,11 @@ function Navbar() {
           </Link>
 
           <div className="items-center hidden space-x-8 md:flex">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-base font-semibold text-gray-700 transition hover:text-indigo-600">
               Home
-            </a>
+            </Link>
             <Link
               to="/Dashboard"
               className="text-base font-semibold text-gray-700 transition hover:text-indigo-600">
