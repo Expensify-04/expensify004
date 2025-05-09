@@ -76,9 +76,12 @@ function Navbar() {
     // localStorage.removeItem("email");
     // localStorage.removeItem("password");
     // localStorage.removeItem("user"); // Clear Google user too
-     logout();
-    setProfile(null); // Immediately update the profile state to null
-    navigate("/",{replace:true});
+     
+    logout(); // Your logout function
+    localStorage.clear(); // Or manually remove items
+    setProfile(null); // Reset state
+    console.log("Logged out, profile:", profile); // Add this
+    navigate("/", { replace: true });
   };
 
   const isAuthenticated = localStorage.getItem('isAuthenticated')
