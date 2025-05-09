@@ -71,14 +71,10 @@ function Navbar() {
 
   const handleLogout = () => {
     // Clear everything on logout
-    // localStorage.removeItem("firstname");
-    // localStorage.removeItem("lastname");
-    // localStorage.removeItem("email");
-    // localStorage.removeItem("password");
-    // localStorage.removeItem("user"); // Clear Google user too
-    logout();
-
-    setProfile(null); // Immediately update the profile state to null
+    logout(); // Your logout function
+    localStorage.clear(); // Or manually remove items
+    setProfile(null); // Reset state
+    console.log("Logged out, profile:", profile); // Add this
     navigate("/", {replace: true});
   };
 
@@ -105,7 +101,7 @@ function Navbar() {
           <div className="items-center hidden space-x-8 md:flex">
             <Link
               to="/"
-              className="text-base font-semibold text-gray-700 transition hover:text-indigo-600">
+              className="text-xl font-semibold text-white transition hover:text-cyan-700">
               Home
             </Link>
             <Link
