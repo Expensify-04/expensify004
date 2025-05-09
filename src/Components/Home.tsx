@@ -44,12 +44,12 @@ function Home() {
               </motion.button>
             </motion.div>
             <img
-              src="../../financeIllustration2.jpg"
+              src="../../finances.png"
               alt="Finance illustration"
-              className="w-full max-w-md mx-auto"
+              className="w-60 h-60 mx-auto"
             />
           </div>
-
+  
           {/* Features Section */}
           <motion.div
             className="max-w-6xl mx-auto mt-20"
@@ -76,10 +76,33 @@ function Home() {
             </div>
           </motion.div>
         </section>
+  
+        {/* ✅ Down Hero Section: Now outside of the main content section */}
+        <section className="py-16 px-4 bg-cyan-100 text-gray-900 font-sans">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-cyan-900 animate-bounce">
+              Track Your Finances
+            </h1>
+            <p className="max-w-2xl mx-auto mb-8 text-lg text-gray-800">
+              Wealth is not about having a lot of money — it’s about having control over your money.
+            </p>
+            <div className="flex justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 text-lg font-medium text-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-full shadow-md hover:shadow-lg transition"
+              >
+                Let's Save
+              </motion.button>
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );
 }
+
+
 
 const features = [
   {
