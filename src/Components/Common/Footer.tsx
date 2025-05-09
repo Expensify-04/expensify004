@@ -2,6 +2,7 @@ import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 
 function Footer() {
   return (
+<<<<<<< HEAD
 <>     {/* Hero Section */}
       
 
@@ -15,6 +16,13 @@ function Footer() {
         <p className="text-sm text-cyan-700">&copy; 2025 Expense Tracker</p>
       </footer>
       </> 
+=======
+    <footer className="bg-cyan-600 text-white px-5 py-9  ">
+      <div className="container mx-auto text-center">
+        <p>&copy; {new Date().getFullYear()} ExpenseTracker. All rights reserved.</p>
+      </div>
+    </footer>
+>>>>>>> 96c7918590d26652dd98da9b205d1c978e08e026
   );
 }
 

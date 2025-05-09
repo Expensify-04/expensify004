@@ -1,10 +1,10 @@
-// src/router/AppRouter.jsx
 import {createBrowserRouter} from "react-router-dom";
 import {lazy, Suspense} from "react";
 
 // Non-lazy loaded components (small or layout-level)
 import Layout from "../Components/Layout/Layout";
 import Home from "../Components/Home";
+<<<<<<< HEAD
 import PrivateRoute from "../Auth/PrivateRoute";
 import {PropagateLoader} from "react-spinners";
 
@@ -21,28 +21,49 @@ const Loading = (
   </div>
 );
 
+=======
+import CurrencyConverter from "../Components/CurrencyConverter";
+import Signin from "../Components/Signin";
+import Signup from "../Components/Signup";
+import Piechart from "../Components/Piechart";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import ProtectedRouter from "../Components/ProtectedRouter";
+>>>>>>> 96c7918590d26652dd98da9b205d1c978e08e026
 const AppRouter = createBrowserRouter([
   {
+    
     path: "/",
     element: <Layout />,
     children: [
+      {index:true,element: <Home/>},
       {
-        index: true,
-        element: <Home />,
+        path: "signin",
+        element: <Signin />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
       },
       {
         path: "dashboard",
         element: (
+<<<<<<< HEAD
           <PrivateRoute>
             <Suspense fallback={Loading}>
               <PieChart />
             </Suspense>
           </PrivateRoute>
+=======
+          <ProtectedRouter>
+                      <Piechart/>
+         </ProtectedRouter>
+>>>>>>> 96c7918590d26652dd98da9b205d1c978e08e026
         ),
       },
       {
         path: "currency",
         element: (
+<<<<<<< HEAD
           <PrivateRoute>
             <Suspense fallback={Loading}>
               <CurrencyConverter />
@@ -67,6 +88,14 @@ const AppRouter = createBrowserRouter([
         ),
       },
       {
+=======
+          <ProtectedRouter>
+            <CurrencyConverter />
+          </ProtectedRouter>
+        ),
+      },
+      {
+>>>>>>> 96c7918590d26652dd98da9b205d1c978e08e026
         path: "*",
         element: (
           <Suspense fallback={Loading}>
