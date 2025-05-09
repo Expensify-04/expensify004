@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import ProfileImage from "./ProfileImage"; // Import the ProfileImage component
-import { useAuth } from "../Authentication";
+import {useAuth} from "../Authentication";
 
 interface GoogleUser {
   email: string;
@@ -9,18 +9,18 @@ interface GoogleUser {
   picture: string;
   sub: string;
 }
-interface UserProfile{
-  firstname:string;
-  picture?:string;
+interface UserProfile {
+  firstname: string;
+  picture?: string;
 }
 
 function Navbar() {
-  const {logout}=useAuth()
+  const {logout} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   // Lazy initialization of profile state from localStorage
-  const [profile, setProfile] = useState<UserProfile|null>(() => {
+  const [profile, setProfile] = useState<UserProfile | null>(() => {
     const storedFirstname = localStorage.getItem("firstname");
     const googleUserData = localStorage.getItem("user");
 
@@ -76,17 +76,14 @@ function Navbar() {
     // localStorage.removeItem("email");
     // localStorage.removeItem("password");
     // localStorage.removeItem("user"); // Clear Google user too
-     logout();
+    logout();
+
     setProfile(null); // Immediately update the profile state to null
-<<<<<<< HEAD
-    navigate("/");
-=======
-    navigate("/",{replace:true});
->>>>>>> 96c7918590d26652dd98da9b205d1c978e08e026
+    navigate("/", {replace: true});
   };
 
-  const isAuthenticated = localStorage.getItem('isAuthenticated')
-  console.log(isAuthenticated)
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  console.log(isAuthenticated);
 
   const handleSignin = () => {
     navigate("/signin");
@@ -97,7 +94,7 @@ function Navbar() {
   }
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full bg-cyan-600 shadow-sm p-3">
+    <header className="fixed top-0 left-0 z-50 w-full p-3 shadow-sm bg-cyan-600">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Brand */}
@@ -106,15 +103,11 @@ function Navbar() {
           </Link>
 
           <div className="items-center hidden space-x-8 md:flex">
-<<<<<<< HEAD
             <Link
               to="/"
               className="text-base font-semibold text-gray-700 transition hover:text-indigo-600">
               Home
             </Link>
-=======
-            <Link to="/" className="text-xl font-semibold  text-white transition hover:text-cyan-700">Home</Link>
->>>>>>> 96c7918590d26652dd98da9b205d1c978e08e026
             <Link
               to="/Dashboard"
               className="text-xl font-semibold text-white transition hover:text-cyan-700">
@@ -130,27 +123,24 @@ function Navbar() {
           {/* Login/Logout Section */}
           <div className="flex items-center space-x-4">
             {profile ? (
-               <>
-               {/* Use ProfileImage component with dynamic name */}
-               {profile && <ProfileImage name={profile.firstname} />}
-               <span className="text-sm font-medium text-white">
-                 Welcome, {profile.firstname || "Guest"}
-               </span>
-               <button
-                 onClick={handleLogout}
-                 className="px-5 py-2 text-white transition bg-red-400 rounded-md shadow-md cursor-pointer hover:bg-red-500">
-                 Logout
-               </button>
-             </>
-           
-             
+              <>
+                {/* Use ProfileImage component with dynamic name */}
+                {profile && <ProfileImage name={profile.firstname} />}
+                <span className="text-sm font-medium text-white">
+                  Welcome, {profile.firstname || "Guest"}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="px-5 py-2 text-white transition bg-red-400 rounded-md shadow-md cursor-pointer hover:bg-red-500">
+                  Logout
+                </button>
+              </>
             ) : (
               <button
-              onClick={handleSignin}
-              className="px-5 py-2 text-white transition bg-cyan-500 rounded-md shadow-md cursor-pointer hover:bg-cyan-700"
-            >
-              Login
-            </button>
+                onClick={handleSignin}
+                className="px-5 py-2 text-white transition rounded-md shadow-md cursor-pointer bg-cyan-500 hover:bg-cyan-700">
+                Login
+              </button>
             )}
           </div>
         </div>
