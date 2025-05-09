@@ -73,7 +73,7 @@ function Navbar() {
     localStorage.removeItem("isAuthenticated");
 
     setProfile(null); // Immediately update the profile state to null
-    navigate("/signin");
+    navigate("/");
   };
 
   const handleSignin = () => {
