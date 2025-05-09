@@ -2,8 +2,10 @@ import {useEffect} from "react";
 import {motion} from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 import Navbar from "./Common/Navbar";
+import {Link, useNavigate} from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   useEffect(() => {
     const lenis = new Lenis({
       lerp: 0.1, // smoother scrolling
@@ -37,7 +39,9 @@ function Home() {
                 Visualize, manage, and take control of your financial future — all in one intuitive
                 dashboard.
               </p>
+
               <motion.button
+                onClick={() => navigate("/signin")}
                 whileHover={{scale: 1.05}}
                 whileTap={{scale: 0.95}}
                 className="px-6 py-3 text-lg text-white transition rounded-lg shadow-lg bg-cyan-600 hover:bg-cyan-600">
@@ -87,6 +91,7 @@ function Home() {
             </p>
             <div className="flex justify-center">
               <motion.button
+                onClick={() => navigate("/signin")}
                 whileHover={{scale: 1.05}}
                 whileTap={{scale: 0.95}}
                 className="px-6 py-3 text-lg font-medium text-white transition rounded-full shadow-md bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-lg">
