@@ -94,8 +94,11 @@ function Navbar() {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Brand */}
-          <Link to="/" className="flex-shrink-0 text-2xl font-bold tracking-tight text-white">
-            ExpenseTracker
+          <Link
+            to="/"
+            className="flex items-center space-x-2 text-2xl font-bold tracking-tight text-white">
+            <img src="/expense.png" alt="ExpenseTracker logo" className="w-8 h-8" />
+            <span>ExpenseTracker</span>
           </Link>
 
           <div className="items-center hidden space-x-8 md:flex">
