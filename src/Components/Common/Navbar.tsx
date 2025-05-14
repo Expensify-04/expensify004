@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import ProfileImage from "./ProfileImage"; // Import the ProfileImage component
+import ProfileImage from "./ProfileImage"; 
 import {useAuth} from "../Authentication";
 
 interface GoogleUser {
@@ -19,7 +19,6 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Lazy initialization of profile state from localStorage
   const [profile, setProfile] = useState<UserProfile | null>(() => {
     const storedFirstname = localStorage.getItem("firstname");
     const googleUserData = localStorage.getItem("user");
@@ -36,11 +35,10 @@ function Navbar() {
       return {firstname: storedFirstname};
     }
 
-    return null; // Default to null if no data is found
+    return null; 
   });
 
   useEffect(() => {
-    // Listen for localStorage changes to update the profile
     const handleStorageChange = (e: StorageEvent) => {
       if (e.storageArea === localStorage) {
         const storedFirstname = localStorage.getItem("email");
@@ -70,11 +68,10 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // Clear everything on logout
-    logout(); // Your logout function
-    localStorage.clear(); // Or manually remove items
-    setProfile(null); // Reset state
-    console.log("Logged out, profile:", profile); // Add this
+    logout(); 
+    localStorage.clear();
+    setProfile(null); 
+    console.log("Logged out, profile:", profile); 
     navigate("/", {replace: true});
   };
 
@@ -86,14 +83,14 @@ function Navbar() {
   };
 
   if (location.pathname === "/signin" || location.pathname === "/signup") {
-    return null; // Don't render the Navbar on the Signin page
+    return null; 
   }
 
   return (
     <header className="fixed top-0 left-0 z-50 w-full p-3 shadow-sm bg-cyan-600">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo / Brand */}
+          
           <Link
             to="/"
             className="flex items-center space-x-2 text-2xl font-bold tracking-tight text-white">
@@ -119,11 +116,9 @@ function Navbar() {
             </Link>
           </div>
 
-          {/* Login/Logout Section */}
           <div className="flex items-center space-x-4">
             {profile ? (
               <>
-                {/* Use ProfileImage component with dynamic name */}
                 {profile && <ProfileImage name={profile.firstname} />}
                 <span className="text-sm font-medium text-white">
                   Welcome, {profile.firstname || "Guest"}
