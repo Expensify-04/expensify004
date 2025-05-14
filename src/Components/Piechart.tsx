@@ -61,7 +61,7 @@ const Piechart: React.FC = () => {
       <Navbar />
 
       <div className="min-h-screen pt-24 flex flex-col items-center px-4 py-8">
-        <h1 className="text-4xl font-bold text-cyan-700 mb-6">Expense Tracker</h1>
+        <h1 className="text-3xl font-bold text-cyan-700 mb-6">Lets Track</h1>
 
         <button
           onClick={() => setIsModalOpen(true)}
