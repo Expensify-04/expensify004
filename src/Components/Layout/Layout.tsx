@@ -17,7 +17,7 @@ const Layout=()=> {
       <main className="flex-grow pt-4" role="main">
         <Outlet /> {/* This renders the nested route (Home, CurrencyConverter, etc.) */}
       </main>
-      <Footer /> 
+      {/* <Footer />  */}
     </div>
   );
 }
