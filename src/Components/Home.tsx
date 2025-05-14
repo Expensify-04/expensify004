@@ -3,6 +3,7 @@ import {motion} from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 import Navbar from "./Common/Navbar";
 import {useNavigate} from "react-router-dom";
+import Footer from "./Common/Footer";
 
 function Home() {
   const navigate = useNavigate();
@@ -98,6 +99,7 @@ function Home() {
           </div>
         </section>
       </div>
+      <Footer/>
     </>
   );
 }
