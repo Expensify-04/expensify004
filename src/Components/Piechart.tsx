@@ -29,7 +29,6 @@ const Piechart: React.FC = () => {
         );
 
         if (existingExpense) {
-          // Update amount if expense already exists
           return prev.map((p) =>
             p.personName.toLowerCase() === personName.toLowerCase()
               ? {
@@ -43,7 +42,6 @@ const Piechart: React.FC = () => {
               : p
           );
         } else {
-          // Add new expense
           return prev.map((p) =>
             p.personName.toLowerCase() === personName.toLowerCase()
               ? {
@@ -55,7 +53,6 @@ const Piechart: React.FC = () => {
         }
       }
 
-      // New person
       return [...prev, { personName, expenses: [expense] }];
     });
   };
