@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-50 to-white">
         <section className="flex-1 px-6 pt-24 pb-12">
           <div className="grid items-center max-w-6xl gap-10 mx-auto md:grid-cols-2">
@@ -99,7 +99,7 @@ function Home() {
           </div>
         </section>
       </div>
-      <Footer/>
+      
     </>
   );
 }

@@ -10,6 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import {useNavigate, Link} from "react-router-dom";
 import {toast} from "react-toastify";
 import { useAuth } from "./Authentication";
+import Navbar from './Common/Navbar';
 
 interface GoogleUser {
   email: string;
@@ -95,7 +96,6 @@ const Signin: React.FC = () => {
   
     <div className="flex">
     
-     
        <div>
         <img
           src={images[currentIndex]}
