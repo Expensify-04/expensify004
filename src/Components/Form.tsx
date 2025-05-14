@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
-interface FormProps {
+type FormProps ={
   onSubmit: (
     personName: string,
     expense: { name: string; amount: number },
     limit: number
   ) => void;
+
 }
+
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const [personName, setPersonName] = useState('');

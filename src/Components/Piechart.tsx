@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "./Form";
 import PieChartView from "./Dashboard";
 import Navbar from "./Common/Navbar";
-import Modal from "./Modal"; // Make sure you have a Modal component
+import Modal from "./Modal"; 
 
 interface SingleExpense {
   name: string;
@@ -46,7 +46,7 @@ const Piechart: React.FC = () => {
             ? {
                 ...p,
                 expenses: [...p.expenses, expense],
-                limit: p.limit, // Keep original limit
+                limit: p.limit, 
               }
             : p
         );
@@ -60,11 +60,9 @@ const Piechart: React.FC = () => {
     <div className="flex flex-col w-full">
       <Navbar />
 
-      {/* Main content */}
       <div className="min-h-screen pt-24 flex flex-col items-center px-4 py-8">
         <h1 className="text-4xl font-bold text-cyan-700 mb-6">Expense Tracker</h1>
 
-        {/* ➕ Add Button */}
         <button
           onClick={() => setIsModalOpen(true)}
           className="mb-6 px-6 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700"
@@ -72,7 +70,7 @@ const Piechart: React.FC = () => {
           ➕ Add Expense
         </button>
 
-        {/* 🧾 Modal Form */}
+     
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <Form
             onSubmit={(personName, expense, limit) => {
@@ -82,7 +80,6 @@ const Piechart: React.FC = () => {
           />
         </Modal>
 
-        {/* 🧠 Pie Chart Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 px-10">
           {peopleExpenses.map((person, index) => {
             const totalSpent = person.expenses.reduce(
