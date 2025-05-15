@@ -94,19 +94,22 @@ const Navbar =()=> {
   const handleSignin = () => {
     navigate("/signin");
   };
-  // For sigin and signup page return null for navbar
   if (location.pathname === "/signin" || location.pathname === "/signup") {
     return null; 
   }
   return (
-    <header className="fixed top-0 left-0 z-50 w-full bg-cyan-600 shadow-sm p-3">
+    <header className="fixed top-0 left-0 z-50 w-full p-3 shadow-sm bg-cyan-600">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex-shrink-0 text-2xl font-bold tracking-tight text-white">
             ExpenseTracker
           </Link>
           <div className="items-center hidden space-x-8 md:flex">
-            <Link to="/" className="text-xl font-semibold  text-white transition hover:text-cyan-700">Home</Link>
+            <Link
+              to="/"
+              className="text-xl font-semibold text-white transition hover:text-cyan-700">
+              Home
+            </Link>
             <Link
               to="/Dashboard"
               className="text-xl font-semibold text-white transition hover:text-cyan-700">
