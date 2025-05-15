@@ -2,17 +2,23 @@ import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import ProfileImage from "./ProfileImage"; 
 import { useAuth } from "../Authentication";
-type UserProfile = {
+
+
+interface UserProfile  {
   email?: string;
   name?: string;
   picture?: string;
-  phone?: string;
   firstName?: string;
   phoneNumber?: string;
 } ;
+
+
+
 type NavbarProfile = Omit<UserProfile,'name'|'phone'> &{
   firstname?:string
 }
+
+
 const maskPhoneNumber = (number: string): string => {
   const match = number.match(/(\+91-\d{2})(\d)(\d{2})-(\d{3})(\d)/);
   return match
@@ -21,21 +27,24 @@ const maskPhoneNumber = (number: string): string => {
         `${first}${'*'.repeat(mid.length)}${last}`
       );
 };
+
+
+
 const Navbar =()=> {
   const {logout}=useAuth()
   const navigate = useNavigate();
   const location = useLocation();
-
   const [showDetails,setShowDetails]=useState(false)
   const [profile, setProfile] = useState<NavbarProfile|null>(() => {
     const storedFirstname = localStorage.getItem("firstname");
     const googleUserData = localStorage.getItem("user");
     const storedEmail =localStorage.getItem("email")
    const storedPhone = localStorage.getItem("phonenumber")
+
     if (googleUserData) {
       try {
         const user: UserProfile = JSON.parse(googleUserData);
-        return {firstname: user.name, picture: user.picture, email: user.email || undefined, phoneNumber: user.phone};
+        return {firstname: user.name, picture: user.picture, email: user.email || undefined, phoneNumber: user.phoneNumber};
       } catch (error) {
         console.error("Failed to parse Google user:", error);
         return null;
@@ -50,6 +59,8 @@ const Navbar =()=> {
  const toggleDetails=()=>{
   setShowDetails((prev)=>!prev)
  }
+
+
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.storageArea === localStorage) {
@@ -60,7 +71,7 @@ const Navbar =()=> {
         if (googleUserData) {
           try {
             const user: UserProfile = JSON.parse(googleUserData);
-            setProfile({firstname: user.name, picture: user.picture,email:user.email || undefined,phoneNumber:user.phone || undefined});
+            setProfile({firstname: user.name, picture: user.picture,email:user.email || undefined,phoneNumber:user.phoneNumber || undefined});
           } catch (error) {
             console.error("Failed to parse Google user:", error);
             setProfile(null);
@@ -78,6 +89,8 @@ const Navbar =()=> {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+
+
   const handleLogout = () => {
     localStorage.removeItem("firstname");
     localStorage.removeItem("lastname");
