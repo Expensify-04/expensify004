@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {CurrencyUrl} from "../utils/ApiUrl";
 import useCurrencyConverter from "../Hooks/useCurrencyConverter";
 import {CurrencySymbols} from "../utils/CurrencySymbols";
-import Navbar from "./Common/Navbar";
+import Navbar from "../Common/Navbar";
 
 // Utility to get symbol
 const getSymbol = (code: string) => CurrencySymbols[code] || "";
@@ -59,13 +59,9 @@ const CurrencyConverter = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 to-white">
-      <Navbar/>
+      <Navbar />
       <div className="w-full max-w-md p-6 bg-white mt-8 shadow-2xl rounded-2xl  ">
-        <h1 className="mb-4 text-2xl font-bold text-center text-cyan-600 ">
-          Currency Converter
-        </h1>
-
-    
+        <h1 className="mb-4 text-2xl font-bold text-center text-cyan-600 ">Currency Converter</h1>
 
         <div className="mb-4">
           <label className="block mb-2 font-medium text-indigo-900">Amount</label>

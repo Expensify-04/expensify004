@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import ProfileImage from "./ProfileImage";
-import {useAuth} from "../Authentication";
+import {useAuth} from "../Components/Authentication";
 type UserProfile = {
   email?: string;
   name?: string;

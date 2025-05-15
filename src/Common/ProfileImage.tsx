@@ -1,6 +1,6 @@
 // ProfileImage.tsx
 import React from "react";
-import {AvatarUrl} from "../../utils/ApiUrl";
+import {AvatarUrl} from "../utils/ApiUrl";
 
 interface ProfileImageProps {
   name: string; // Use the full name of the user to generate the avatar

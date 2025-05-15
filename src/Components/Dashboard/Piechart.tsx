@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import Form from "./Form";
 import PieChartView from "./Dashboard";
-import Navbar from "../Common/Navbar";
+import Navbar from "../../Common/Navbar";
 
 interface SingleExpense {
   name: string;
