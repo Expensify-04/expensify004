@@ -37,6 +37,7 @@ const Signin: React.FC = () => {
 
     if (email === storedEmail && password === storedPassword) {
       localStorage.setItem("isAuthenticated", "true");
+      window.dispatchEvent(new Event("storage"));
       toast.success("Login successfully");
       console.log("before login");
 
@@ -61,7 +62,7 @@ const Signin: React.FC = () => {
         // Store user details locally
         localStorage.setItem("user", JSON.stringify(decoded));
         localStorage.setItem("isAuthenticated", "true");
-
+        window.dispatchEvent(new Event("storage"));
         toast.success("Google login successful");
         setIsLoggedIn(true);
 
