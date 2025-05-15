@@ -1,11 +1,15 @@
-import {createBrowserRouter} from "react-router-dom";
-import {lazy, Suspense} from "react";
+import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 // Non-lazy loaded components (small or layout-level)
 import Layout from "../Components/Layout/Layout";
 import Home from "../Components/Home";
 import PrivateRoute from "../Auth/PrivateRoute";
+<<<<<<< HEAD
 import {PropagateLoader} from "react-spinners";
+=======
+import { PropagateLoader } from "react-spinners";
+>>>>>>> df4412c85638b1af8ed83e47f25f4735433d413b
 import Piechart from "../Components/Piechart";
 
 // Lazy loaded components
