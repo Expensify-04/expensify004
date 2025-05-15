@@ -23,7 +23,7 @@ const PieChartView: React.FC<Props> = ({ data }) => {
   }
 
   return (
-    <div className="w-[400px]  h-full flex flex-col justify-center items-center">
+    <div className="w-[400px]  h-full flex flex-col justify-center items-center ">
       <h2 className="text-lg font-semibold text-cyan-600 mb-4">Expense Distribution</h2>
       <PieChart width={280} height={280} className='relative right-3'>
         <Pie
