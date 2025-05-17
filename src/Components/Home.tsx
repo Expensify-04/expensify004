@@ -4,7 +4,7 @@ import Lenis from "@studio-freight/lenis";
 import {useNavigate} from "react-router-dom";
 import {features} from "../Data/Features";
 import type {Feature} from "../Types/Types";
-import finance from "../assets/finances.png";
+import finance from "../assets/images/finances.png";
 
 function Home() {
   const navigate = useNavigate();

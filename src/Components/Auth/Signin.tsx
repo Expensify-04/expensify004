@@ -1,25 +1,22 @@
-// src/Components/Signin.tsx
-
-import React, {useState} from "react";
-import img from "../assets/sigin.png";
-import phone from "../assets/phone.png";
+import img1 from "../../assets/images/slide1 (1).png";
+import img2 from "../../assets/images/slide2.png";
+import img3 from "../../assets/images/slide3.png";
+import React, {useEffect, useState} from "react";
+import phone from "../../assets/images/phone.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {GoogleLogin, type CredentialResponse} from "@react-oauth/google";
 import {jwtDecode} from "jwt-decode";
 import {useNavigate, Link} from "react-router-dom";
 import {toast} from "react-toastify";
-import {useAuth} from "../Authentication";
+import {useAuth} from "./Authentication";
+import type {GoogleUser} from "../../Types/Types";
 
-// Interface for Google decoded token
-interface GoogleUser {
-  email: string;
-  name: string;
-  picture: string;
-  sub: string; // Google user ID
-}
+const images = [img1, img2, img3];
 
 const Signin: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
   const {setIsLoggedIn} = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -28,8 +25,21 @@ const Signin: React.FC = () => {
   const handlePhoneNumber = () => {
     navigate("/phonenumber");
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
-  // Email/Password login handler
+  const prevImage = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  const nextImage = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
   const handleEmailSignin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const storedEmail = localStorage.getItem("email");
@@ -50,7 +60,6 @@ const Signin: React.FC = () => {
     }
   };
 
-  // Google login handler
   const handleGoogleLogin = (response: CredentialResponse) => {
     console.log("Google Login Response:", response);
 
@@ -59,7 +68,6 @@ const Signin: React.FC = () => {
         const decoded: GoogleUser = jwtDecode(response.credential);
         console.log("Decoded Google User:", decoded);
 
-        // Store user details locally
         localStorage.setItem("user", JSON.stringify(decoded));
         localStorage.setItem("isAuthenticated", "true");
         window.dispatchEvent(new Event("storage"));
@@ -79,17 +87,40 @@ const Signin: React.FC = () => {
   return (
     <>
       <div className="flex">
-        {/* Left Image */}
-        <div className="relative flex justify-center left-10">
-          <img src={img} alt="Signin" />
+        <div>
+          <img
+            src={images[currentIndex]}
+            alt={`Image ${currentIndex}`}
+            className="w-[700px] h-[640px] "
+          />
+
+          <button
+            className="absolute text-2xl text-white transform -translate-y-1/2 left-2 top-1/2"
+            onClick={prevImage}>
+            &#10094;
+          </button>
+          <button
+            className="absolute text-2xl text-white transform -translate-y-1/2 right-2 top-1/2"
+            onClick={nextImage}>
+            &#10095;
+          </button>
         </div>
 
-        {/* Signin Form */}
-        <div className="relative p-10 mt-10 left-44">
-          <h1 className="m-3 text-4xl font-bold">Sign in</h1>
-          <p className="mt-4 ml-3 text-xs">Sign in with open account</p>
+        <div className="">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`btn btn-xs mx-1 ${
+                currentIndex === index ? "bg-cyan-500" : "bg-gray-300"
+              }`}></button>
+          ))}
+        </div>
 
-          {/* Google & Phone Buttons */}
+        <div className="relative p-10  left-[70px] mt-[60px]">
+          <h1 className="text-5xl font-bold text-center text-cyan-500">Sign in</h1>
+          <p className="mt-4 ml-3 text-xs text-center">Sign in with open account</p>
+
           <div className="flex gap-3 mt-3 mb-3">
             <GoogleLogin onSuccess={handleGoogleLogin} />
             <button
@@ -101,7 +132,6 @@ const Signin: React.FC = () => {
 
           <hr />
 
-          {/* Email/Password Form */}
           <div className="flex flex-col mt-3">
             <p>Or continue with email address</p>
 
@@ -136,7 +166,7 @@ const Signin: React.FC = () => {
                 />
               </div>
 
-              <div className="flex justify-between m-2 mt-3">
+              <div className="flex justify-between mt-3">
                 <label className="text-xs">
                   <input type="checkbox" className="mr-1" /> Remember me
                 </label>
@@ -145,14 +175,14 @@ const Signin: React.FC = () => {
 
               <button
                 type="submit"
-                className="bg-blue-300 mt-3 p-2 w-[350px] rounded-xl text-xl text-white hover:text-black">
+                className="bg-cyan-600 mt-3 p-2 w-[350px] rounded-xl text-xl text-white hover:bg-cyan-500">
                 Sign in
               </button>
             </form>
 
-            <p className="m-2 mt-4 text-sm text-center">
+            <p className="m-2 mt-4 text-sm font-semibold text-center">
               Don’t have an account?{" "}
-              <Link to="/signup" className="font-semibold text-blue-600 hover:underline">
+              <Link to="/signup" className="font-semibold text-cyan-600 hover:underline">
                 Sign Up
               </Link>
             </p>

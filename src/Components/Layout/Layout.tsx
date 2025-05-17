@@ -2,7 +2,7 @@ import {Outlet} from "react-router-dom";
 import Footer from "../../Common/Footer";
 import Navbar from "../../Common/Navbar";
 import {useEffect} from "react";
-import {useAuth} from "../Authentication";
+import {useAuth} from "../Auth/Authentication";
 
 const Layout = () => {
   const {isLoggedIn} = useAuth();

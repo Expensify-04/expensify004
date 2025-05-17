@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
 
-interface FormProps {
-  onSubmit: (personName: string, expense: { name: string; amount: number }) => void;
+type FormProps ={
+  onSubmit: (
+    personName: string,
+    expense: { name: string; amount: number },
+    limit: number
+  ) => void;
+
 }
+
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const [personName, setPersonName] = useState('');
   const [expenseName, setExpenseName] = useState('');
   const [amount, setAmount] = useState('');
+  const [limit, setLimit] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!personName || !expenseName || !amount) return;
 
-    onSubmit(personName, {
-      name: expenseName,
-      amount: parseFloat(amount),
-    });
+    onSubmit(
+      personName,
+      { name: expenseName, amount: parseFloat(amount) },
+      parseFloat(limit)
+    );
+
 
     setPersonName('');
     setExpenseName('');
@@ -32,6 +41,16 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           value={personName}
           onChange={(e) => setPersonName(e.target.value)}
           className="w-full border  px-3 py-2 rounded outline-none"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block font-bold text-cyan-600 mb-1">Limit</label>
+        <input
+          type="number"
+          value={limit}
+          onChange={(e) => setLimit(e.target.value)}
+          className="w-full border px-3 py-2 rounded outline-none"
         />
       </div>
 
@@ -58,6 +77,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       <button type="submit" className="w-full bg-cyan-500 cursor-pointer text-white py-2 rounded hover:bg-cyan-600">
         Add Expense
       </button>
+
+
     </form>
   );
 };

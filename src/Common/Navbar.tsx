@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import ProfileImage from "./ProfileImage";
-import {useAuth} from "../Components/Authentication";
+import {useAuth} from "../Components/Auth/Authentication";
 type UserProfile = {
   email?: string;
   name?: string;
@@ -116,7 +116,11 @@ const Navbar = () => {
     navigate("/signin");
   };
   // For sigin and signup page return null for navbar
-  if (location.pathname === "/signin" || location.pathname === "/signup") {
+  if (
+    location.pathname === "/signin" ||
+    location.pathname === "/signup" ||
+    location.pathname === "dashboard"
+  ) {
     return null;
   }
 
