@@ -3,8 +3,8 @@ import {motion} from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 import {useNavigate} from "react-router-dom";
 import {features} from "../Data/Features";
-import type {Feature} from "../Types/Types";
 import finance from "../assets/images/finances.png";
+import type { Features } from "../Types/Types";
 
 function Home() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ function Home() {
             Features Designed to Empower You
           </h2>
           <div className="grid grid-cols-1 gap-8 px-2 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature: Feature, index: number) => (
+            {features.map((feature: Features, index: number) => (
               <motion.div
                 key={index}
                 className="flex flex-col items-center p-6 text-center bg-white shadow-md cursor-pointer rounded-xl hover:shadow-2xl"

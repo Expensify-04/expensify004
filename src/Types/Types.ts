@@ -43,3 +43,9 @@ export interface GoogleUser {
   picture: string;
   sub: string;
 }
+
+export interface Features {
+  title: string;
+  description: string;
+  img: string;
+}

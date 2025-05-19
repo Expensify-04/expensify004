@@ -1,6 +1,6 @@
-import type { Feature } from "../Types/Types";
+import type { Features } from "../Types/Types";
 
-export const features: Feature[] = [
+export const features: Features[] = [
   {
     title: "Smart Budgeting",
     description: "Create personalized budgets and track spending with ease.",
