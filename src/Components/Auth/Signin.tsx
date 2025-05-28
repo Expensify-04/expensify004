@@ -116,7 +116,6 @@ const Signin: React.FC = () => {
           ))}
         </Box>
       </Box>
-
       {/* Right Signin Form */}
       <Box
         width={{xs: "100%", md: "50%"}}
@@ -159,12 +158,14 @@ const Signin: React.FC = () => {
                 margin="normal"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <FontAwesomeIcon icon={faEnvelope} />
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FontAwesomeIcon icon={faEnvelope} />
+                      </InputAdornment>
+                    ),
+                  }
                 }}
               />
               <TextField
@@ -176,12 +177,14 @@ const Signin: React.FC = () => {
                 margin="normal"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <FontAwesomeIcon icon={faKey} />
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FontAwesomeIcon icon={faKey} />
+                      </InputAdornment>
+                    ),
+                  }
                 }}
               />
 

@@ -83,19 +83,21 @@ const CurrencyConverter = () => {
           label="Amount"
           type="number"
           value={amount}
-          inputProps={{min: 1}}
           onChange={(e) => {
             const val = e.target.value;
             setAmount(val === "" ? "" : Number(val));
             setError(null);
           }}
-          InputProps={{
-            startAdornment: (
-              <span style={{marginRight: 8, color: "#6B7280"}}>{getSymbol(fromCurrency)}</span>
-            ),
-          }}
           sx={{mb: 3, borderColor: "#6B7280"}}
-        />
+          slotProps={{
+            input: {
+              startAdornment: (
+                <span style={{marginRight: 8, color: "#6B7280"}}>{getSymbol(fromCurrency)}</span>
+              ),
+            },
+
+            htmlInput: {min: 1}
+          }} />
 
         {/* Currency Select */}
         <Stack direction="row" spacing={2} mb={3}>
