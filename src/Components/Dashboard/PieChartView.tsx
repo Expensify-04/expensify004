@@ -19,7 +19,7 @@ const PieChartView: React.FC<PieChartProps> = ({data}) => {
       <h2 className="mb-4 text-lg font-semibold text-cyan-600">Expense Distribution</h2>
       <PieChart width={280} height={280} className="relative right-3">
         <Pie data={data} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-          {data.map((entry, index) => (
+          {data.map((_, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
