@@ -23,7 +23,7 @@ const CurrencyConverter = () => {
   const [recent, setRecent] = useState<string[][]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const {data: currencies = [], isLoading: currenciesLoading} = useCurrencies();
+  const {data: currencies = []} = useCurrencies();
   const {mutate: convertCurrency, data: result, isPending: isConverting} = useCurrencyConversion();
 
   useEffect(() => {
@@ -96,8 +96,9 @@ const CurrencyConverter = () => {
               ),
             },
 
-            htmlInput: {min: 1}
-          }} />
+            htmlInput: {min: 1},
+          }}
+        />
 
         {/* Currency Select */}
         <Stack direction="row" spacing={2} mb={3}>

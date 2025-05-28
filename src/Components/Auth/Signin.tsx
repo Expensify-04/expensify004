@@ -40,9 +40,9 @@ const Signin: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const prevImage = () =>
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  const nextImage = () => setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  // const prevImage = () =>
+  //   setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  // const nextImage = () => setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
 
   const handlePhoneNumber = () => navigate({to: "/signin"});
 
@@ -165,7 +165,7 @@ const Signin: React.FC = () => {
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputAdornment>
                     ),
-                  }
+                  },
                 }}
               />
               <TextField
@@ -184,7 +184,7 @@ const Signin: React.FC = () => {
                         <FontAwesomeIcon icon={faKey} />
                       </InputAdornment>
                     ),
-                  }
+                  },
                 }}
               />
 
