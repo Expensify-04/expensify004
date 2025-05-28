@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "@tanstack/react-router";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const ErrorPage = () => {
         Sorry, the page you are looking for does not exist or has been moved.
       </p>
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate({to: "/"})}
         className="px-6 py-2 mt-6 text-white transition duration-300 bg-blue-600 rounded hover:bg-blue-700">
         Go to Home
       </button>

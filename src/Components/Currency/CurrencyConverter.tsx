@@ -1,53 +1,49 @@
 import {useEffect, useState} from "react";
-import {CurrencyUrl} from "../../utils/ApiUrl";
-import useCurrencyConverter from "../../Hooks/useCurrencyConverter";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  CircularProgress,
+  Stack,
+} from "@mui/material";
+import {useCurrencies} from "../../Hooks/useCurrencies";
+import {useCurrencyConversion} from "../../Hooks/useCurrencyConversion";
 import {CurrencySymbols} from "../../utils/CurrencySymbols";
-import Navbar from "../../Common/Navbar";
 
-// Utility to get symbol
 const getSymbol = (code: string) => CurrencySymbols[code] || "";
-
 const RECENT_KEY = "recentCurrencies";
 
 const CurrencyConverter = () => {
   const [amount, setAmount] = useState<number | "">("");
-  const [fromCurrency, setFromCurrency] = useState<string>("USD");
-  const [toCurrency, setToCurrency] = useState<string>("INR");
-  const [currencies, setCurrencies] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [fromCurrency, setFromCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("INR");
   const [recent, setRecent] = useState<string[][]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const {result, loading, convertCurrency} = useCurrencyConverter(amount, fromCurrency, toCurrency);
+  const {data: currencies = [], isLoading: currenciesLoading} = useCurrencies();
+  const {mutate: convertCurrency, data: result, isPending: isConverting} = useCurrencyConversion();
 
-  // Fetch list of available currencies + Load recent
   useEffect(() => {
-    const fetchCurrencies = async () => {
-      try {
-        const res = await fetch(CurrencyUrl);
-        const data = await res.json();
-        setCurrencies(Object.keys(data).sort());
-      } catch (err) {
-        setError("Failed to load currencies");
-      }
-    };
-
-    fetchCurrencies();
-
-    const storedRecent = localStorage.getItem(RECENT_KEY);
-    if (storedRecent) {
-      setRecent(JSON.parse(storedRecent));
-    }
+    const stored = localStorage.getItem(RECENT_KEY);
+    if (stored) setRecent(JSON.parse(stored));
   }, []);
 
-  const swapCurrencies = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
-  };
-
   const handleConvert = () => {
-    convertCurrency();
+    if (amount === "" || isNaN(Number(amount)) || Number(amount) <= 0) {
+      setError("Please enter a valid amount");
+      return;
+    }
+    if (fromCurrency === toCurrency) {
+      setError("From and To currencies cannot be the same");
+      return;
+    }
 
-    // Save to recent
+    setError(null);
+    convertCurrency({amount: Number(amount), from: fromCurrency, to: toCurrency});
+
     const pair = [fromCurrency, toCurrency];
     const updatedRecent = [
       pair,
@@ -58,109 +54,175 @@ const CurrencyConverter = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 to-white">
-      {/* <Navbar /> */}
-      <div className="w-full max-w-md p-6 mt-8 bg-white shadow-2xl rounded-2xl ">
-        <h1 className="mb-4 text-2xl font-bold text-center text-cyan-600 ">Currency Converter</h1>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom right, #EEF2FF, #FFFFFF)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: 2,
+      }}>
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 400,
+          p: 4,
+          mb: 6,
+          bgcolor: "#FFFFFF",
+          borderRadius: 4,
+          boxShadow: 6,
+        }}>
+        <Typography variant="h5" fontWeight="bold" textAlign="center" color="#0891b2" mb={2}>
+          Currency Converter
+        </Typography>
 
-        <div className="mb-4">
-          <label className="block mb-2 font-medium text-indigo-900">Amount</label>
-          <div className="relative">
-            <span className="absolute text-gray-500 left-3 top-2">{getSymbol(fromCurrency)}</span>
-            <input
-              type="number"
-              value={amount}
-              min="1"
-              onChange={(e) => {
-                const val = e.target.value;
-                setAmount(val === "" ? "" : Number(val));
-              }}
-              className="w-full px-6 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
-          </div>
-        </div>
+        {/* Amount Input */}
+        <TextField
+          fullWidth
+          label="Amount"
+          type="number"
+          value={amount}
+          inputProps={{min: 1}}
+          onChange={(e) => {
+            const val = e.target.value;
+            setAmount(val === "" ? "" : Number(val));
+            setError(null);
+          }}
+          InputProps={{
+            startAdornment: (
+              <span style={{marginRight: 8, color: "#6B7280"}}>{getSymbol(fromCurrency)}</span>
+            ),
+          }}
+          sx={{mb: 3, borderColor: "#6B7280"}}
+        />
 
-        <div className="flex gap-4 mb-4">
-          <div className="flex-1">
-            <label className="block mb-2 font-medium text-gray-700">From</label>
-            <select
+        {/* Currency Select */}
+        <Stack direction="row" spacing={2} mb={3}>
+          <Box flex={1}>
+            <Typography fontWeight="500" mb={0.5}>
+              From
+            </Typography>
+            <Select
               value={fromCurrency}
-              onChange={(e) => setFromCurrency(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500">
+              fullWidth
+              onChange={(e) => setFromCurrency(e.target.value)}>
               {currencies.map((cur) => (
-                <option key={cur} value={cur}>
+                <MenuItem key={cur} value={cur}>
                   {cur} {getSymbol(cur)}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-          </div>
-
-          <div className="flex-1">
-            <label className="block mb-2 font-medium text-gray-700">To</label>
-            <select
-              value={toCurrency}
-              onChange={(e) => setToCurrency(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500">
+            </Select>
+          </Box>
+          <Box flex={1}>
+            <Typography fontWeight="500" mb={0.5}>
+              To
+            </Typography>
+            <Select value={toCurrency} fullWidth onChange={(e) => setToCurrency(e.target.value)}>
               {currencies.map((cur) => (
-                <option key={cur} value={cur}>
+                <MenuItem key={cur} value={cur}>
                   {cur} {getSymbol(cur)}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-          </div>
-        </div>
+            </Select>
+          </Box>
+        </Stack>
 
         {/* Swap Button */}
-        <button
-          onClick={swapCurrencies}
-          className="w-full px-3 py-2 mb-4 text-xl font-medium border rounded text-cyan-500 hover:bg-indigo-100">
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={() => {
+            setFromCurrency(toCurrency);
+            setToCurrency(fromCurrency);
+            setError(null);
+          }}
+          sx={{
+            color: "#0891b2",
+            borderColor: "#0891b2",
+            fontWeight: 600,
+            mb: 2,
+            ":hover": {
+              backgroundColor: "#EEF2FF",
+            },
+          }}>
           Swap Currencies
-        </button>
+        </Button>
 
         {/* Convert Button */}
-        <button
+        <Button
+          fullWidth
+          variant="contained"
           onClick={handleConvert}
-          className="w-full px-4 py-2 mb-2 text-xl font-semibold text-white transition duration-200 rounded-lg shadow bg-cyan-500 hover:bg-cyan-600 hover:shadow-md">
+          sx={{
+            backgroundColor: "#06b6d4",
+            fontWeight: 600,
+            fontSize: "1rem",
+            mb: 2,
+            ":hover": {
+              backgroundColor: "#0891b2",
+            },
+          }}>
           Convert
-        </button>
+        </Button>
 
-        {/* Result Display */}
-        {loading && (
-          <div className="text-lg font-semibold text-center text-cyan-500 animate-pulse">
+        {/* Result / Error / Loading */}
+        {isConverting && (
+          <Typography align="center" color="#0891b2" fontWeight={600}>
+            <CircularProgress size={24} sx={{color: "#0891b2", mr: 1}} />
             Converting...
-          </div>
+          </Typography>
         )}
-        {error && <div className="font-medium text-center text-red-500">{error}</div>}
-        {result !== null && !loading && !error && (
-          <div className="mt-4 text-center">
-            <p className="text-lg font-medium text-gray-600 ">Converted Amount:</p>
-            <p className="overflow-hidden text-4xl font-extrabold text-green-500 text-ellipsis whitespace-nowrap">
+        {error && (
+          <Typography align="center" color="error" fontWeight={500}>
+            {error}
+          </Typography>
+        )}
+        {result !== undefined && !error && !isConverting && (
+          <Box mt={2} textAlign="center">
+            <Typography fontSize="1rem" color="text.secondary">
+              Converted Amount:
+            </Typography>
+            <Typography fontSize="2rem" fontWeight="bold" color="green">
               {getSymbol(toCurrency)} {result.toFixed(2)}
-            </p>
-          </div>
+            </Typography>
+          </Box>
         )}
 
-        {/* Recent Currencies */}
+        {/* Recent */}
         {recent.length > 0 && (
-          <div className="mt-6">
-            <h2 className="mb-2 text-sm font-medium text-gray-500">Recently Used:</h2>
-            <div className="flex flex-wrap gap-2">
+          <Box mt={4}>
+            <Typography variant="body2" color="text.secondary" mb={1}>
+              Recently Used:
+            </Typography>
+            <Stack direction="row" spacing={1} flexWrap="wrap">
               {recent.map(([from, to], idx) => (
-                <button
+                <Button
                   key={idx}
+                  size="small"
+                  variant="outlined"
                   onClick={() => {
                     setFromCurrency(from);
                     setToCurrency(to);
+                    setError(null);
                   }}
-                  className="px-3 py-1 text-xs font-medium border rounded text-cyan-500 border-cyan-600 hover:bg-indigo-100">
+                  style={{
+                    margin: "3px",
+                  }}
+                  sx={{
+                    fontSize: "0.75rem",
+                    borderColor: "#0891b2",
+                    color: "#0891b2",
+                    ":hover": {backgroundColor: "#EEF2FF"},
+                  }}>
                   {from} → {to}
-                </button>
+                </Button>
               ))}
-            </div>
-          </div>
+            </Stack>
+          </Box>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

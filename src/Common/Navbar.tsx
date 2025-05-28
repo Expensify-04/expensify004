@@ -1,189 +1,191 @@
-import {useEffect, useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import ProfileImage from "./ProfileImage";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+
 import {useAuth} from "../Components/Auth/Authentication";
+import {useNavigate, useLocation} from "@tanstack/react-router";
+import ProfileImage from "./ProfileImage";
+
 type UserProfile = {
   email?: string;
   name?: string;
   picture?: string;
   phone?: string;
-  firstName?: string;
-  phoneNumber?: string;
 };
-type NavbarProfile = Omit<UserProfile, "name" | "phone"> & {
-  firstname?: string;
-};
-const maskPhoneNumber = (number: string): string => {
-  const match = number.match(/(\+91-\d{2})(\d)(\d{2})-(\d{3})(\d)/);
-  return match
-    ? `${match[1]}${match[2]}**-***${match[5]}`
-    : number.replace(
-        /^(\d)(\d*)(\d)$/,
-        (_, first, mid, last) => `${first}${"*".repeat(mid.length)}${last}`
-      );
-};
-const Navbar = () => {
-  const {logout, isLoggedIn} = useAuth();
 
+const pages = [
+  {name: "Home", path: "/"},
+  {name: "Dashboard", path: "/dashboard"},
+  {name: "Currency Converter", path: "/currency"},
+];
+
+function Navbar() {
+  const {logout, isLoggedIn} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [showDetails, setShowDetails] = useState(false);
-  const [profile, setProfile] = useState<NavbarProfile | null>(() => {
-    const storedFirstname = localStorage.getItem("firstname");
-    const googleUserData = localStorage.getItem("user");
-    const storedEmail = localStorage.getItem("email");
-    const storedPhone = localStorage.getItem("phonenumber");
-    if (googleUserData) {
-      try {
-        const user: UserProfile = JSON.parse(googleUserData);
-        return {
-          firstname: user.name,
-          picture: user.picture,
-          email: user.email || undefined,
-          phoneNumber: user.phone,
-        };
-      } catch (error) {
-        console.error("Failed to parse Google user:", error);
-        return null;
-      }
-    } else if (storedFirstname) {
-      return {
-        firstname: storedFirstname,
-        email: storedEmail || undefined,
-        phoneNumber: storedPhone || undefined,
-      };
-    }
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [profile, setProfile] = React.useState<UserProfile | null>(null);
 
-    return null;
-  });
+  React.useEffect(() => {
+    const updateProfile = () => {
+      const googleUserData = localStorage.getItem("user");
+      const firstname = localStorage.getItem("firstname");
+      const email = localStorage.getItem("email");
+      const phone = localStorage.getItem("phonenumber");
 
-  const toggleDetails = () => {
-    setShowDetails((prev) => !prev);
-  };
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.storageArea === localStorage) {
-        const storedFirstname = localStorage.getItem("firstname");
-        const googleUserData = localStorage.getItem("user");
-        const storedEmail = localStorage.getItem("email");
-        const storedPhone = localStorage.getItem("phone");
-        if (googleUserData) {
-          try {
-            const user: UserProfile = JSON.parse(googleUserData);
-            setProfile({
-              firstname: user.name,
-              picture: user.picture,
-              email: user.email || undefined,
-              phoneNumber: user.phone || undefined,
-            });
-          } catch (error) {
-            console.error("Failed to parse Google user:", error);
-            setProfile(null);
-          }
-        } else if (storedFirstname) {
-          setProfile({
-            firstname: storedFirstname,
-            email: storedEmail || undefined,
-            phoneNumber: storedPhone || undefined,
-          });
-        } else {
+      if (googleUserData) {
+        try {
+          const user: UserProfile = JSON.parse(googleUserData);
+          setProfile(user);
+        } catch {
           setProfile(null);
         }
+      } else if (firstname || email) {
+        setProfile({
+          name: firstname || "",
+          email: email || "",
+          phone: phone || "",
+        });
+      } else {
+        setProfile(null);
       }
     };
-    console.log("Console from navbar gfkhgdsfgsa");
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  });
+    updateProfile();
+    const handleStorage = () => updateProfile();
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, [isLoggedIn]);
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   const handleLogout = () => {
-    localStorage.removeItem("firstname");
-    localStorage.removeItem("lastname");
-    localStorage.removeItem("email");
-    localStorage.removeItem("phonenumber");
-    localStorage.removeItem("password");
-    localStorage.removeItem("user");
+    localStorage.clear();
     logout();
     setProfile(null);
-    navigate("/", {replace: true});
+    navigate({to: "/", replace: true});
   };
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
-  console.log(isAuthenticated);
-  const handleSignin = () => {
-    navigate("/signin");
+
+  const handleNavigate = (path: string) => {
+    navigate({to: path});
+    handleCloseNavMenu();
   };
-  // For sigin and signup page return null for navbar
-  if (
-    location.pathname === "/signin" ||
-    location.pathname === "/signup" ||
-    location.pathname === "dashboard"
-  ) {
+
+  // Hide navbar on login/signup pages
+  if (["/signin", "/signup"].includes(location.pathname.toLowerCase())) {
     return null;
   }
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full p-3 shadow-sm bg-cyan-600">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex-shrink-0 text-2xl font-bold tracking-tight text-white">
-            ExpenseTracker
-          </Link>
-          <div className="items-center hidden space-x-8 md:flex">
-            <Link
-              to="/"
-              className="text-xl font-semibold text-white transition hover:text-cyan-700">
-              Home
-            </Link>
-            <Link
-              to="/Dashboard"
-              className="text-xl font-semibold text-white transition hover:text-cyan-700">
-              Dashboard
-            </Link>
-            <Link
-              to="/Currency"
-              className="text-xl font-semibold text-white transition hover:text-cyan-700">
-              Currency Converter
-            </Link>
-          </div>
-          <div className="relative flex items-center space-x-4">
-            {isLoggedIn && profile ? (
-              <>
-                <div className="flex items-center cursor-pointer" onClick={toggleDetails}>
-                  <ProfileImage name={profile.firstname || ""} />
-                  <div className="text-white text-sm relative right-[100px] top-[15px] ">
-                    {showDetails && (
-                      <>
-                        <div className="absolute left-0 z-10 p-3 mt-2 text-sm text-center text-gray-800 bg-white rounded-md shadow-lg top-full">
-                          <div className="m-1"> Welcome, {profile.firstname}</div>
-                          {profile.phoneNumber && (
-                            <div className="m-1">Phone: {maskPhoneNumber(profile.phoneNumber)}</div>
-                          )}
-                          {profile.email && <div className="m-1">Email: {profile.email}</div>}
-                          <button
-                            onClick={handleLogout}
-                            className="px-5 py-2 text-center text-white transition bg-red-400 rounded-md shadow-md cursor-pointer hover:bg-red-500">
-                            Logout
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <button
-                onClick={handleSignin}
-                className="px-5 py-2 text-white transition rounded-md shadow-md cursor-pointer bg-cyan-500 hover:bg-cyan-700">
-                Login
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </header>
+    <AppBar position="static" sx={{backgroundColor: "#0092b8"}}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            onClick={() => navigate({to: "/"})}
+            sx={{
+              mr: 2,
+              display: {xs: "none", md: "flex"},
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".2rem",
+              color: "inherit",
+              cursor: "pointer",
+              textDecoration: "none",
+            }}>
+            Expensify
+          </Typography>
+
+          <Box sx={{flexGrow: 1, display: {xs: "flex", md: "none"}}}>
+            <IconButton onClick={handleOpenNavMenu} color="inherit">
+              <MenuIcon />
+            </IconButton>
+            <Menu anchorEl={anchorElNav} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
+              {pages.map(({name, path}) => (
+                <MenuItem key={name} onClick={() => handleNavigate(path)}>
+                  <Typography textAlign="center">{name}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+
+          <Typography
+            variant="h6"
+            noWrap
+            onClick={() => navigate({to: "/"})}
+            sx={{
+              flexGrow: 1,
+              display: {xs: "flex", md: "none"},
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".2rem",
+              color: "inherit",
+              textDecoration: "none",
+              cursor: "pointer",
+            }}>
+            Expensify
+          </Typography>
+
+          <Box sx={{flexGrow: 1, display: {xs: "none", md: "flex"}}}>
+            {pages.map(({name, path}) => (
+              <Button key={name} onClick={() => handleNavigate(path)} sx={{my: 2, color: "white"}}>
+                {name}
+              </Button>
+            ))}
+          </Box>
+
+          {isLoggedIn && profile ? (
+            <Box sx={{flexGrow: 0}}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                  <ProfileImage name={profile.name || "User"} size={40} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={anchorElUser}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}>
+                <MenuItem disabled>Welcome, {profile.name || "User"}</MenuItem>
+                {profile.email && <MenuItem disabled>Email: {profile.email}</MenuItem>}
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <Button onClick={() => navigate({to: "/signin"})} color="inherit" sx={{ml: 2}}>
+              Login
+            </Button>
+          )}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
-};
+}
+
 export default Navbar;

@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import Form from "./Form";
 import PieChartView from "./PieChartView";
-import Navbar from "../../Common/Navbar";
 import Modal from "./Modal";
 import type {PersonExpenses, SingleExpense} from "../../Types/Types";
 
@@ -40,8 +39,6 @@ const Piechart: React.FC = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <Navbar />
-
       <div className="flex flex-col items-center min-h-screen px-4 py-8 pt-24">
         <h1 className="mb-6 text-3xl font-bold text-cyan-700">Lets Track</h1>
 

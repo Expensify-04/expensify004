@@ -1,30 +1,38 @@
-import img1 from "../../assets/images/slide1 (1).png";
-import img2 from "../../assets/images/slide2.png";
-import img3 from "../../assets/images/slide3.png";
 import React, {useEffect, useState} from "react";
-import phone from "../../assets/images/phone.png";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import {GoogleLogin, type CredentialResponse} from "@react-oauth/google";
 import {jwtDecode} from "jwt-decode";
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, Link} from "@tanstack/react-router";
 import {toast} from "react-toastify";
 import {useAuth} from "./Authentication";
 import type {GoogleUser} from "../../Types/Types";
+
+import img1 from "../../assets/images/slide1 (1).png";
+import img2 from "../../assets/images/slide2.png";
+import img3 from "../../assets/images/slide3.png";
+import phone from "../../assets/images/phone.png";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 
 const images = [img1, img2, img3];
 
 const Signin: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-  const {setIsLoggedIn} = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
 
-  const handlePhoneNumber = () => {
-    navigate("/phonenumber");
-  };
+  const navigate = useNavigate();
+  const {setIsLoggedIn} = useAuth();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -32,13 +40,11 @@ const Signin: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const prevImage = () => {
+  const prevImage = () =>
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
+  const nextImage = () => setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
 
-  const nextImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
+  const handlePhoneNumber = () => navigate({to: "/signin"});
 
   const handleEmailSignin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,34 +55,24 @@ const Signin: React.FC = () => {
       localStorage.setItem("isAuthenticated", "true");
       window.dispatchEvent(new Event("storage"));
       toast.success("Login successfully");
-      console.log("before login");
-
       setIsLoggedIn(true);
-      console.log("after login");
-
-      navigate("/dashboard");
+      navigate({to: "/dashboard"});
     } else {
       toast.error("Invalid email or password");
     }
   };
 
   const handleGoogleLogin = (response: CredentialResponse) => {
-    console.log("Google Login Response:", response);
-
     if (response.credential) {
       try {
         const decoded: GoogleUser = jwtDecode(response.credential);
-        console.log("Decoded Google User:", decoded);
-
         localStorage.setItem("user", JSON.stringify(decoded));
         localStorage.setItem("isAuthenticated", "true");
         window.dispatchEvent(new Event("storage"));
         toast.success("Google login successful");
         setIsLoggedIn(true);
-
-        navigate("/dashboard");
+        navigate({to: "/dashboard"});
       } catch (error) {
-        console.error("Error decoding Google token:", error);
         toast.error("Google login failed");
       }
     } else {
@@ -85,111 +81,138 @@ const Signin: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="flex">
-        <div>
-          <img
-            src={images[currentIndex]}
-            alt={`Image ${currentIndex}`}
-            className="w-[700px] h-[640px] "
-          />
+    <Box display="flex" minHeight="100vh" width="100%">
+      {/* Left Image Slider */}
+      <Box
+        position="relative"
+        width={{xs: "0", md: "50%"}}
+        display={{xs: "none", md: "block"}}
+        height="100vh">
+        <Box
+          component="img"
+          src={images[currentIndex]}
+          alt={`Slide ${currentIndex}`}
+          width="100%"
+          height="100%"
+          sx={{objectFit: "cover"}}
+        />
 
-          <button
-            className="absolute text-2xl text-white transform -translate-y-1/2 left-2 top-1/2"
-            onClick={prevImage}>
-            &#10094;
-          </button>
-          <button
-            className="absolute text-2xl text-white transform -translate-y-1/2 right-2 top-1/2"
-            onClick={nextImage}>
-            &#10095;
-          </button>
-        </div>
-
-        <div className="">
+        <Box display="flex" justifyContent="center" mt={1}>
           {images.map((_, index) => (
-            <button
+            <Button
               key={index}
+              size="small"
+              variant="contained"
               onClick={() => setCurrentIndex(index)}
-              className={`btn btn-xs mx-1 ${
-                currentIndex === index ? "bg-cyan-500" : "bg-gray-300"
-              }`}></button>
+              sx={{
+                minWidth: 10,
+                height: 10,
+                p: 0,
+                m: 0.5,
+                backgroundColor: currentIndex === index ? "cyan.main" : "grey.400",
+                borderRadius: "50%",
+              }}
+            />
           ))}
-        </div>
+        </Box>
+      </Box>
 
-        <div className="relative p-10  left-[70px] mt-[60px]">
-          <h1 className="text-5xl font-bold text-center text-cyan-500">Sign in</h1>
-          <p className="mt-4 ml-3 text-xs text-center">Sign in with open account</p>
+      {/* Right Signin Form */}
+      <Box
+        width={{xs: "100%", md: "50%"}}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        px={{xs: 2, md: 6}}
+        py={8}>
+        <Box width="100%" maxWidth="400px">
+          <Typography variant="h4" align="center" color="primary" fontWeight="bold">
+            Sign in
+          </Typography>
+          <Typography variant="caption" display="block" align="center" mt={1}>
+            Sign in with your account
+          </Typography>
 
-          <div className="flex gap-3 mt-3 mb-3">
+          <Box display="flex" gap={2} justifyContent="center" mt={3} mb={2}>
             <GoogleLogin onSuccess={handleGoogleLogin} />
-            <button
+            <Button
+              variant="outlined"
+              startIcon={<Box component="img" src={phone} alt="Phone" width={20} />}
               onClick={handlePhoneNumber}
-              className="flex gap-3 p-2 border-2 rounded-lg border-slate-200 hover:bg-slate-100">
-              <img src={phone} alt="Phone" className="w-6" /> Phone Number
-            </button>
-          </div>
+              sx={{textTransform: "none"}}>
+              Phone Number
+            </Button>
+          </Box>
 
-          <hr />
+          <Divider />
 
-          <div className="flex flex-col mt-3">
-            <p>Or continue with email address</p>
-
+          <Box mt={3}>
+            <Typography variant="body2" mb={1}>
+              Or continue with email address
+            </Typography>
             <form onSubmit={handleEmailSignin}>
-              <div className="relative mt-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-slate-200 rounded-xl pl-10 py-2 w-[350px] outline-none"
-                  required
-                  placeholder="Email"
-                />
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className="absolute text-gray-500 transform -translate-y-1/2 left-3 top-1/2"
-                />
-              </div>
+              <TextField
+                fullWidth
+                required
+                label="Email"
+                variant="outlined"
+                margin="normal"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FontAwesomeIcon icon={faEnvelope} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                fullWidth
+                required
+                type="password"
+                label="Password"
+                variant="outlined"
+                margin="normal"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FontAwesomeIcon icon={faKey} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
 
-              <div className="relative mt-3">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-slate-200 rounded-xl pl-10 py-2 w-[350px] outline-none"
-                  required
-                  placeholder="Password"
-                />
-                <FontAwesomeIcon
-                  icon={faKey}
-                  className="absolute text-gray-500 transform -translate-y-1/2 left-3 top-1/2"
-                />
-              </div>
+              <Box display="flex" justifyContent="space-between" mt={1}>
+                <FormControlLabel control={<Checkbox size="small" />} label="Remember me" />
+                <Typography
+                  variant="caption"
+                  sx={{cursor: "pointer", "&:hover": {textDecoration: "underline"}}}>
+                  Forgot Password?
+                </Typography>
+              </Box>
 
-              <div className="flex justify-between mt-3">
-                <label className="text-xs">
-                  <input type="checkbox" className="mr-1" /> Remember me
-                </label>
-                <p className="text-xs cursor-pointer hover:underline">Forgot Password?</p>
-              </div>
-
-              <button
+              <Button
                 type="submit"
-                className="bg-cyan-600 mt-3 p-2 w-[350px] rounded-xl text-xl text-white hover:bg-cyan-500">
+                variant="contained"
+                fullWidth
+                sx={{mt: 2, py: 1.5, backgroundColor: "#00acc1"}}>
                 Sign in
-              </button>
+              </Button>
             </form>
 
-            <p className="m-2 mt-4 text-sm font-semibold text-center">
+            <Typography variant="body2" align="center" mt={3}>
               Don’t have an account?{" "}
-              <Link to="/signup" className="font-semibold text-cyan-600 hover:underline">
+              <Link to="/signup" style={{color: "#00acc1", textDecoration: "underline"}}>
                 Sign Up
               </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </>
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

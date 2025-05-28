@@ -2,7 +2,7 @@ import {createBrowserRouter} from "react-router-dom";
 import {lazy, Suspense} from "react";
 
 // Non-lazy loaded components (small or layout-level)
-import Layout from "../Components/Layout/Layout";
+import Layout from "../routes/__root";
 import Home from "../Components/Home";
 import PrivateRoute from "../Components/Auth/PrivateRoute";
 import {PropagateLoader} from "react-spinners";
